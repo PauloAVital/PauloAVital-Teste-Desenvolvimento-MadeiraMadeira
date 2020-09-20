@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-  $visited = DB::select('select * from places where visited = ?', [1]); 
-  $togo = DB::select('select * from places where visited = ?', [0]);
 
-  return view('welcome', ['visited' => $visited, 'togo' => $togo ] );
+  return view('welcome');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/tags', 'HomeController@tag')->name('home');
