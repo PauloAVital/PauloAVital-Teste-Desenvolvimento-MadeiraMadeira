@@ -14,8 +14,7 @@ class GithubApiExternaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {               
-        //return response()->json(['success','Chegou Aqui2']);
+    {                       
         $client = new Client();
 
 	$response = $client->request('GET', 'https://api.github.com/users/pauloavital/repos');

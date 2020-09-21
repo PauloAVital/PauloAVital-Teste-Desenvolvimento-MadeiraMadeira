@@ -74,6 +74,7 @@
 
         <main class="py-4">
             @yield('content')
+            <script src="{{url('js/tag.js')}}"></script>
         </main>
     </div>
 </body>
