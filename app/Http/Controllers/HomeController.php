@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use DataTables;
+use App\User;
 
 class HomeController extends Controller
 {
+    private $objuser;
     /**
      * Create a new controller instance.
      *
@@ -15,6 +17,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        $this->objuser = new User();
         $this->middleware('auth');
     }
 
@@ -24,15 +27,16 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
-    {
-        $teste = 123;
-        return view('home', compact('teste'));
+    {        
+        return view('home');
     }
 
     public function search()
     {      
         //return view('admin.pages.tags.index', compact('teste2'));
-        return view('admin.pages.search.index');
+        $users = $this->objuser->all();
+        //dd($users);
+        return view('admin.pages.search.index', compact('users'));
     }
 
     public function searchUser(Request $request) {
@@ -112,7 +116,7 @@ class HomeController extends Controller
             return DataTables::of($response)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-info btn-sm">tag</a>';
+                    $btn = '<a href="javascript:void(0)" id="buttonLocalizar" class="edit btn btn-info btn-sm" onclick="cadastrar()">tag</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])

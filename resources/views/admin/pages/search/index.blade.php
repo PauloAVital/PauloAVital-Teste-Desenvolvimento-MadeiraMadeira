@@ -3,7 +3,7 @@
 @section('title', 'Search - Github')
 
 @section('content')
-
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
 <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -20,7 +20,8 @@
 <div class="container mt-5">
     <div class="card">
         <div class="card-header">
-            Busca Api GitHub
+            Busca Api GitHub 
+            
         </div>
         <div class="card-body">
             <h5 class="card-title">Busca repositorios públicos pelo nome</h5>
@@ -48,7 +49,7 @@
                     @endif
                 </div>
                 <div class="linha-vertical"></div>
-                <div class="form-group mx-sm-3 mb-2">                    
+                <div class="form-group mx-sm-3 mb-2">
                     <select class="form-control" name="language" id="language">
                         <option value="PHP">PHP</option>
                         <option value="JQUERY">JQUERY</option>
@@ -112,8 +113,7 @@
         var table = $a('.github-datatable').DataTable({
             processing: true,
             serverSide: true,
-            columns: [
-                {
+            columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex'
                 },
@@ -141,8 +141,40 @@
                 },
             ]
         });
-
     });
+
+    function cadastrar() {        
+        $a('.github-datatable tbody td').on('click', function() {
+            let $row = $(this).closest("tr"),
+                $tds = $row.find("td");
+
+            dados = [];
+            $.each($tds, function() {
+                dados.push($(this).text());
+            });            
+            let nome_github = dados[1];
+            let language_github = dados[3];
+            let link_github = dados[4];
+            let _token   = $('meta[name="csrf-token"]').attr('content');
+           
+
+            $.ajax({
+                type: 'POST',
+                url: "users/tagCreate",
+                data: {
+                    nome_github: nome_github,
+                    language_github: language_github,
+                    link_github: link_github,                    
+                    _token: _token
+                },
+                success: function(data) {
+                    alert('Tageado com SUCESSO');
+                }
+            });
+
+        });
+
+    }
 </script>
 
 
