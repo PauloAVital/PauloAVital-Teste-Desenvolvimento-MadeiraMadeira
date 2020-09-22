@@ -17,4 +17,6 @@ Route::get('/searchTerm', 'HomeController@searchTerm')->name('home.searchTerm');
 
 Route::get('github', 'Api\GithubApiExternaController@index');
 
+Route::post('/users/tagCreate', 'UserTagsController@tagCreate');
+
 Route::resource('/users', 'UserTagsController');

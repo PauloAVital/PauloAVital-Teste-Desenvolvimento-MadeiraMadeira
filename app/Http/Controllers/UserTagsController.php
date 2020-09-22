@@ -41,6 +41,21 @@ class UserTagsController extends Controller
         return view('admin.pages.users.create', compact('users'));
     }
 
+    public function tagCreate(Request $request) {                      
+        echo auth()->user()->id.'<br>';
+        echo $request->nome_github.'<br>';
+        echo $request->language_github.'<br>';
+        echo $request->link_github.'<br>';
+        $cadTag = $this->objTags->create([
+            'id_user' => auth()->user()->id, 
+            'nome_github' => $request->nome_github,
+            'language_github' => $request->language_github,
+            'link_github' => $request->link_github
+        ]);
+        if($cadTag){
+            return redirect('users');
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
